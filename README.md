@@ -1,6 +1,5 @@
-# rabbitmq-demo-for-php
-php使用RabbitMQ实现延时队列
+# php使用RabbitMQ实现延时队列
 
-# step 1
-加载rabbitmq：
+# 加载rabbitmq的composer包
 composer require php-amqplib
+
