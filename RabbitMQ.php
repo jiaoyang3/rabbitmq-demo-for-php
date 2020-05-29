@@ -27,6 +27,46 @@ class RabbitMQ
     }
 
     /**
+     * @param $exchangeName
+     * @param $type
+     * @param $pasive
+     * @param $durable
+     * @param $autoDelete
+     */
+    public function createExchange($exchangeName, $type, $pasive = false, $durable = false, $autoDelete = false)
+    {
+        $this->channel->exchange_declare($exchangeName, $type, $pasive, $durable, $autoDelete);
+    }
+
+    /**
+     * @param $queueName
+     * @param $pasive
+     * @param $durable
+     * @param $exlusive
+     * @param $autoDelete
+     */
+    public function createQueue($queueName, $pasive = false, $durable = false, $exlusive = false, $autoDelete = false, $nowait = false, $arguments = [])
+    {
+        $this->channel->queue_declare($queueName, $pasive, $durable, $exlusive, $autoDelete, $nowait, $arguments);
+    }
+
+    /**
+     * @param $exchangeName
+     * @param $queue
+     * @param string $routing_key
+     * @param bool $nowait
+     * @param array $arguments
+     * @param null $ticket
+     */
+    public function bindQueue($queue, $exchangeName, $routing_key = '',
+                              $nowait = false,
+                              $arguments = array(),
+                              $ticket = null)
+    {
+        $this->channel->queue_bind($queue, $exchangeName, $routing_key, $nowait, $arguments, $ticket);
+    }
+
+    /**
      * 生成信息
      * @param $message
      */
@@ -44,9 +84,11 @@ class RabbitMQ
      * @param $callback
      * @throws \ErrorException
      */
-    public function consumeMessage($queueName,$callback)
+    public function consumeMessage($queueName, $callback, $tag = '', $noLocal = false, $noAck = false, $exclusive = false, $noWait = false)
     {
-        $this->channel->basic_consume($queueName, '', false, false, false, false, $callback);
+        //只有consumer已经处理并确认了上一条message时queue才分派新的message给它
+        $this->channel->basic_qos(null, 1, null);
+        $this->channel->basic_consume($queueName, $tag, $noLocal, $noAck, $exclusive, $noWait, $callback);
         while ($this->channel->is_consuming()) {
             $this->channel->wait();
         }

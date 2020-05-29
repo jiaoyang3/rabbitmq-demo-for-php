@@ -1,9 +1,9 @@
 <?php
-require_once '../vendor/autoload.php';
+require_once '../../vendor/autoload.php';
 
 // 消费者
 
-$delay = new \RabbitMQ\DelayQueue();
+$delay = new \RabbitMQ\Delay\DelayQueue();
 
 $delayQueueName = 'delay-order-queue';
 

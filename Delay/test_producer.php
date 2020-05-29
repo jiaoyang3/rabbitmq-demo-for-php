@@ -1,9 +1,9 @@
 <?php
-require_once '../vendor/autoload.php';
+require_once '../../vendor/autoload.php';
 
 // 生产者
 
-$delay = new \RabbitMQ\DelayQueue();
+$delay = new \RabbitMQ\Delay\DelayQueue();
 
 $ttl            = 1000 * 100;//订单100s后超时
 $delayExName    = 'delay-order-exchange';//超时exchange

@@ -1,11 +1,12 @@
 <?php
 
 
-namespace RabbitMQ;
+namespace RabbitMQ\Delay;
 
 use PhpAmqpLib\Exchange\AMQPExchangeType;
 use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Wire\AMQPTable;
+use RabbitMQ\RabbitMQ;
 
 /**
  * 使用RabbitMQ实现延时队列功能
