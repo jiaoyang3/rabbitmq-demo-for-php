@@ -27,6 +27,14 @@ class RabbitMQ
     }
 
     /**
+     * @return \PhpAmqpLib\Channel\AMQPChannel
+     */
+    public function getChannel()
+    {
+        return $this->channel;
+    }
+
+    /**
      * @param $exchangeName
      * @param $type
      * @param $pasive
